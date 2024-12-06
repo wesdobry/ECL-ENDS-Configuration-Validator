@@ -1,5 +1,5 @@
 # Build stage
-FROM python:3.11 AS builder
+FROM python:3.13 AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -20,7 +20,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --target=/app/deps -r requirements.txt
 
 # Runtime stage
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Set the working directory in the container
 WORKDIR /app

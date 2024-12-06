@@ -1,4 +1,3 @@
 Flask
-Flask-Session
 gunicorn
 cerberus #needed for ends configuration validator
