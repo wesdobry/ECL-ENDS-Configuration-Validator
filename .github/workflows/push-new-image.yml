@@ -54,6 +54,17 @@ jobs:
           provenance: mode=max
           tags: ${{ env.IMAGE_REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
+      - name: Generate SBOM
+        run: |
+          docker sbom ${{ env.IMAGE_REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --format spdx-json > sbom.spdx.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v3
+        with:
+          name: sbom
+          path: sbom.spdx.json
+
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
