@@ -14,12 +14,6 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install system dependencies for CHIPSEC
-RUN apt-get update && apt-get install -y git
-
-# Clone chipsec
-#RUN git clone https://github.com/chipsec/chipsec.git /opt/chipsec
-
 # create the app user
 RUN addgroup --system app && adduser --system --group app
 
