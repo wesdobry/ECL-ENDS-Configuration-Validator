@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENDS Configuration Validator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <style>
+        /* Page Background Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            background-image: 
+                url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI3LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMTIzLjUgNDM3IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMTIzLjUgNDM3OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGNEUwMDt9Cjwvc3R5bGU+CjxnPgoJPHBhdGggZD0iTTI2NS4xLDI3OS45Yy02LjUsMC4xLTEzLjEtMC41LTE5LjUtMS45Yy00LjYtMS04LjktMy4xLTEyLjUtNi4yYy0zLjItMy01LjYtNi44LTYuOC0xMWMtMS41LTUuMi0yLjItMTAuNy0yLjEtMTYuMXYtMjUuMQoJCWMtMC4xLTUuNCwwLjYtMTAuOSwyLjEtMTYuMWMxLjItNC4yLDMuNi04LDYuOC0xMWMzLjYtMy4xLDcuOS01LjIsMTIuNS02LjNjNi40LTEuNSwxMi45LTIuMSwxOS41LTJoNTcuMWMxLjUtMC4yLDIuOSwwLjksMy4xLDIuNAoJCWMwLDAuMywwLDAuNSwwLDAuOFYyMDJjMC4yLDEuNS0wLjgsMi45LTIuMywzLjFjLTAuMywwLTAuNSwwLTAuOCwwaC01NC43Yy0zLjEtMC4xLTYuMiwwLjItOS4zLDFjLTIuMSwwLjUtNC4xLDEuNi01LjcsMy4xCgkJYy0xLjUsMS43LTIuNSwzLjctMi45LDUuOWMtMC42LDMtMC45LDYuMS0wLjksOS4xdjE1LjVjLTAuMSwzLjEsMC4yLDYuMiwwLjksOS4yYzAuNCwyLjIsMS40LDQuMiwyLjksNS44YzEuNiwxLjYsMy41LDIuNiw1LjcsMy4xCgkJYzMsMC43LDYuMSwxLDkuMywxaDU0LjdjMS41LTAuMiwyLjksMC45LDMuMSwyLjRjMCwwLjMsMCwwLjUsMCwwLjh2MTQuNmMwLjIsMS41LTAuOCwyLjktMi4zLDMuMWMtMC4zLDAtMC41LDAtMC44LDBMMjY1LjEsMjc5LjkKCQlMMjY1LjEsMjc5Ljl6Ii8+Cgk8cGF0aCBkPSJNNTA2LjcsMTg0LjRjMS4zLDAsMi4xLDAuNCwyLjUsMS4zYzAuNCwwLjksMC4zLDEuOS0wLjMsM2wtNjYuNiwxMTcuNGMtMi4zLDQtNS42LDctOS44LDguOWMtNC4yLDEuOS0xMC4xLDIuOS0xNy42LDIuOQoJCWgtMTIuMWMtMi4xLDAtMy4xLTEtMy4xLTMuMXYtMTQuMmMwLTIuMSwxLTMuMSwzLjEtMy4xSDQxM2M0LjQsMCw3LjMtMS4zLDguOS00bDkuNC0xNi41Yy0yLjktMC4yLTUuMS0wLjktNi43LTIuMQoJCWMtMS42LTEuMS0zLTMtNC40LTUuNGwtNDYuOC04MC44Yy0wLjYtMS4xLTAuNy0yLjItMC4zLTNjMC40LTAuOSwxLjItMS4zLDIuNS0xLjNoMjBjMiwwLDMuNCwwLjgsNC4yLDIuNGwzOC41LDY2LjgKCQljMC45LDEuNiwxLjYsMi43LDIuMiwzLjJzMS4yLDAuOCwyLDAuOGw0MC44LTcwLjhjMC44LTEuNiwyLjItMi40LDQuMi0yLjRMNTA2LjcsMTg0LjRMNTA2LjcsMTg0LjR6Ii8+Cgk8cGF0aCBkPSJNNTg4LDE4NC40YzcuOCwwLDE0LjMsMC43LDE5LjYsMmM1LjMsMS4zLDkuNiwzLjQsMTIuOCw2LjJzNS41LDYuNSw2LjgsMTAuOWMxLjQsNC40LDIuMSw5LjgsMi4xLDE2LjF2MjUKCQljMCw2LjItMC43LDExLjYtMi4xLDE2Yy0xLjQsNC41LTMuNyw4LjEtNi44LDEwLjljLTMuMiwyLjgtNy40LDQuOS0xMi44LDYuMnMtMTEuOSwxLjktMTkuNiwxLjloLTU1LjF2MzQuNWMwLDIuNS0xLjMsMy44LTMuOCwzLjgKCQloLTE3Yy0yLjcsMC00LTEuMy00LTMuOHYtOTQuNmMwLTYuMiwwLjctMTEuNiwyLjEtMTYuMWMxLjQtNC40LDMuNy04LjEsNi45LTEwLjljMy4yLTIuOCw3LjQtNC45LDEyLjctNi4yYzUuMy0xLjMsMTEuOC0yLDE5LjctMgoJCUw1ODgsMTg0LjRMNTg4LDE4NC40eiBNNTMyLjksMjU4LjloNTIuN2MzLjgsMCw2LjktMC4zLDkuNC0wLjlzNC40LTEuNiw1LjgtMy4xYzEuNC0xLjUsMi41LTMuNSwzLTUuOWMwLjYtMi40LDAuOS01LjUsMC45LTkuMgoJCXYtMTUuNGMwLTMuNi0wLjMtNi42LTAuOS05LjFzLTEuNi00LjQtMy01LjljLTEuNS0xLjQtMy40LTIuNS01LjgtMy4xYy0yLjQtMC42LTUuNS0wLjktOS40LTAuOWgtMzMuOGMtMy43LDAtNi44LDAuMy05LjIsMC45CgkJYy0yLjQsMC42LTQuNCwxLjctNS44LDMuMWMtMS41LDEuNC0yLjUsMy40LTMsNS45Yy0wLjYsMi41LTAuOSw1LjUtMC45LDkuMUw1MzIuOSwyNTguOUw1MzIuOSwyNTguOXoiLz4KCTxwYXRoIGQ9Ik03NTEuOCwxODQuNGMyLjEsMCwzLjEsMSwzLjEsMy4xdjEzLjljMCwyLjEtMSwzLjEtMy4xLDMuMWgtNzQuM2MtMy42LDAtNi4xLDAuNy03LjUsMnMtMi4xLDMuMy0yLjEsNS44djIuNgoJCWMwLDIuMywwLjcsNC4xLDIuMSw1LjVjMS40LDEuMywzLjksMiw3LjUsMmg1NC41YzkuNywwLDE2LjcsMiwyMC44LDYuMWM0LjIsNC4xLDYuMiw5LjgsNi4yLDE3LjJ2OS43YzAsMy44LTAuNSw3LjItMS40LDEwLjIKCQljLTAuOSwzLTIuNSw1LjUtNC42LDcuNmMtMi4xLDIuMS01LDMuNy04LjQsNC44Yy0zLjUsMS4xLTcuOCwxLjYtMTIuOCwxLjZINjQ3Yy0yLjEsMC0zLjEtMS0zLjEtMy4xdi0xMy45YzAtMi4xLDEtMy4xLDMuMS0zLjEKCQloNzguM2MzLjYsMCw2LjEtMC42LDcuNS0xLjljMS40LTEuMywyLjItMy40LDIuMi02LjR2LTQuN2MwLTIuMy0wLjctNC4xLTIuMi01LjRjLTEuNS0xLjMtNC0xLjktNy41LTEuOUg2NzFjLTkuNywwLTE2LjctMi0yMC44LTYKCQljLTQuMi00LTYuMi05LjgtNi4yLTE3LjR2LTcuNmMwLTMuNiwwLjUtNi45LDEuNC05LjhjMC45LTIuOSwyLjUtNS41LDQuNi03LjZjMi4xLTIuMSw0LjktMy43LDguNC00LjhzNy44LTEuNiwxMi44LTEuNgoJCUw3NTEuOCwxODQuNEw3NTEuOCwxODQuNHoiLz4KCTxwYXRoIGQ9Ik03OTMuOCwxODQuNGMyLjUsMCwzLjgsMS4zLDMuOCw0djg3LjRjMCwyLjUtMS4zLDMuOC0zLjgsMy44aC0xN2MtMi41LDAtMy44LTEuMy0zLjgtMy44di04Ny40YzAtMi43LDEuMy00LDMuOC00CgkJTDc5My44LDE4NC40TDc5My44LDE4NC40eiIvPgoJPHBhdGggZD0iTTgzNy41LDE4NC40YzIuNSwwLDMuOCwxLjMsMy44LDR2NTAuMWMwLDMuNywwLjIsNi44LDAuNyw5LjJzMS4zLDQuNCwyLjYsNS44YzEuMywxLjQsMy4xLDIuNSw1LjQsMy4xCgkJYzIuMywwLjYsNS40LDEsOS4yLDFoMzYuNmMzLjgsMCw2LjktMC4zLDkuNC0xczQuNC0xLjcsNS44LTMuMXMyLjUtMy40LDMtNS44YzAuNi0yLjQsMC45LTUuNSwwLjktOS4ydi01MC4xYzAtMi43LDEuMy00LDMuOC00aDE3CgkJYzIuNSwwLDMuOCwxLjMsMy44LDR2NTYuMmMwLDYuMi0wLjcsMTEuNi0yLjEsMTZjLTEuNCw0LjUtMy43LDguMS02LjgsMTAuOWMtMy4yLDIuOC03LjQsNC45LTEyLjgsNi4ycy0xMS45LDEuOS0xOS42LDEuOWgtNDAuNQoJCWMtNy45LDAtMTQuNC0wLjYtMTkuNy0xLjljLTUuMy0xLjMtOS41LTMuMy0xMi43LTYuMmMtMy4yLTIuOC01LjUtNi41LTYuOC0xMC45Yy0xLjQtNC41LTIuMS05LjgtMi4xLTE2LjF2LTU2LjJjMC0yLjcsMS4zLTQsNC00CgkJTDgzNy41LDE4NC40TDgzNy41LDE4NC40eiIvPgoJPHBhdGggZD0iTTEwNzQsMTg0LjRjNy44LDAsMTQuMiwwLjcsMTkuNSwyYzUuMywxLjMsOS41LDMuNCwxMi44LDYuMnM1LjUsNi41LDYuOCwxMC45czIsOS44LDIsMTYuMXY1Ni4yYzAsMi41LTEuMywzLjgtMy44LDMuOAoJCWgtMTdjLTIuNiwwLTMuOC0xLjMtMy44LTMuOHYtNTAuM2MwLTMuNi0wLjItNi42LTAuNy05LjFzLTEuMy00LjQtMi42LTUuOWMtMS4zLTEuNC0zLjEtMi41LTUuNC0zLjFjLTIuMy0wLjYtNS40LTAuOS05LjItMC45CgkJaC0yNC42djY5LjRjMCwyLjUtMS4zLDMuOC00LDMuOGgtMTdjLTIuNiwwLTMuOC0xLjMtMy44LTMuOHYtNjkuNGgtMjMuNWMtMy43LDAtNi44LDAuMy05LjIsMC45Yy0yLjQsMC42LTQuNCwxLjctNS44LDMuMQoJCWMtMS41LDEuNC0yLjUsMy40LTMsNS45Yy0wLjYsMi41LTAuOSw1LjUtMC45LDkuMXY1MC4zYzAsMi41LTEuMywzLjgtMy44LDMuOGgtMTdjLTIuNywwLTQtMS4zLTQtMy44di01Ni4yCgkJYzAtNi4yLDAuNy0xMS42LDIuMS0xNi4xYzEuNC00LjQsMy43LTguMSw2LjgtMTAuOWMzLjItMi44LDcuNC00LjksMTIuNy02LjJjNS4zLTEuMywxMS44LTIsMTkuNy0ySDEwNzRMMTA3NCwxODQuNHoiLz4KCTxwYXRoIGQ9Ik0zNjQuMSwyMTkuM2MtMC41LTI1LTYtNDktMTYuNS03MS41Yy0wLjktMS45LTMuMi0yLjctNS4xLTEuOGwtMTUsNy40Yy0xLjksMC45LTIuNiwzLjItMS44LDUuMQoJCWM5LjQsMjAuMiwxNC4xLDQxLjgsMTQuMSw2NC4zaDB2NTUuMWMwLDEuMiwxLjMsMS44LDMuOCwxLjhoMTdjMi41LDAsMy44LTAuNiwzLjgtMS44di01Ny43QzM2NC40LDIxOS44LDM2NC4zLDIxOS41LDM2NC4xLDIxOS4zCgkJTDM2NC4xLDIxOS4zeiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTMyMS4xLDEwNi45Yy0zMy44LTM5LjItODIuNi02MS42LTEzNC41LTYxLjZjLTM2LjIsMC03MSwxMC44LTEwMC43LDMxLjNjLTI3LjQsMTguOS00OC45LDQ1LTYyLjIsNzUuNAoJCWwwLjEsMC4xQy0zLjMsMjE1LjIsOC4xLDI5Myw2MC4zLDM0My42YzQzLjMsNDMuOCwxMTIuMyw2MC4yLDE2OS41LDM4LjhDMTI2LjYsNDAxLjgsMjguMiwzMjIuNSwzMy41LDIxNi41CgkJYzAuOS0xOS43LDUuMy0zOC4xLDEyLjYtNTQuOWwwLjEsMGMxMS40LTI2LjMsMzAtNDguOCw1My42LTY1LjFjMjUuNi0xNy42LDU1LjYtMjcsODYuOC0yN2M0NC42LDAsODYuNiwxOS4yLDExNS43LDUyLjgKCQljMS40LDEuNiwzLjcsMS44LDUuMywwLjVsNi41LTUuNGwwLDBsMCwwbDYuNC01LjNDMzIyLjIsMTEwLjksMzIyLjUsMTA4LjUsMzIxLjEsMTA2LjlMMzIxLjEsMTA2Ljl6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjI5LjMsMzYwYy02MS42LDE3LjYtMTI4LjEtMTcuNS0xNTQuMy03NWMtOS4yLTE5LjMtMTMuOC00MS0xMy41LTYyLjRjLTAuMy00LjYsMC44LTExLjQsMS4xLTE2LjEKCQljMC4yLTIuMSwwLjctNS45LDEuMS04YzkuMS01NSw1NC4zLTEwMi4zLDEwOS4xLTExMi40YzIwLjEtMy45LDQwLjktMi45LDU5LjYsMy4xYy0zNy44LDAuNy03NC4xLDE0LjUtMTAwLjYsNDAuNAoJCWMtNTIuNyw0OS41LTUzLjUsMTM2LjctMi4yLDE4Ny42QzE1NS4zLDM0My42LDE5Mi40LDM1OC42LDIyOS4zLDM2MEwyMjkuMywzNjBMMjI5LjMsMzYweiIvPgoJPHBhdGggZD0iTTE1NCwyNzkuNWMtNi41LDAuMS0xMy4xLTAuNS0xOS41LTEuOWMtNC42LTEtOC45LTMuMS0xMi41LTYuMmMtMy4yLTMtNS42LTYuOC02LjgtMTFjLTEuNS01LjItMi4yLTEwLjctMi4xLTE2LjF2LTI1LjEKCQljLTAuMS01LjQsMC42LTEwLjksMi4xLTE2LjFjMS4yLTQuMiwzLjYtOCw2LjgtMTFjMy42LTMuMSw3LjktNS4yLDEyLjUtNi4zYzYuNC0xLjUsMTIuOS0yLjEsMTkuNS0yaDUwLjNjMy45LDAsNy44LDAuMiwxMS42LDAuOQoJCWMtMy40LDQuMS01LjksOC44LTcuNCwxMy45Yy0wLjYsMi0xLjEsNC4xLTEuNSw2LjJjLTIuMy0xLjMtNC45LTEuOC03LjUtMS42aC00My4xYy03LjQsMC0xMi40LDEuMi0xNSwzLjZzLTMuOSw2LjQtMy45LDExLjl2My4zCgkJaDY4LjJ2MTkuM2gtNjguMnYxLjdjMCw1LjQsMS4zLDkuNCwzLjksMTEuOGMyLjYsMi40LDcuNiwzLjcsMTUsMy43aDUwLjVjMC40LDIuMSwwLjksNC4yLDEuNSw2LjNjMS42LDUuNCw0LjQsMTAuNCw4LjEsMTQuNgoJCUwxNTQsMjc5LjVMMTU0LDI3OS41eiIvPgo8L2c+Cjwvc3ZnPgo='),
+                linear-gradient(to bottom right, rgba(245, 245, 245, 0) 60%, rgba(245, 245, 245, 1)),
+                url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNSAyNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTBkMCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==');
+            background-size: 225px 88px, 100% 100%, 25px 25px;
+            background-position: top 15px right 20px, top left, top left;
+            background-repeat: no-repeat, no-repeat, repeat;
+            font-family: Copperplate, sans-serif;
+            color: rgb(255, 255, 255);
+            display: flex;
+            justify-content: flex-start; /* Align to the left */
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 75%;
+            margin: 25px 0 25px 25px; /* Margin on all sides, more space on the left */
+            padding: 20px;
+            background-color: rgb(26, 26, 26);
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.7);
+            border-radius: 4px;
+            border: 1px inset #c4c4c4;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 34px;
+            text-align: center;
+            border-bottom: 1px solid #848484;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        /* Dynamic Status Color Styling */
+        .status-text.valid {
+            color: #28a745; /* Green for valid status */
+        }
+
+        .status-text.error {
+            color: #dc3545; /* Red for error status */
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+
+        label {
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* Input and Button Styling */
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 60px); /* Adjust to fit inside container margins */
+            margin-left: 20px; /* Align with left margin */
+            margin-right: 20px; /* Add symmetrical spacing on right */
+        }
+
+        button {
+            background: #FF4E00;
+            border: 1px outset #ca3d00;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+            font-family: nunito, roboto, sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #FFFFFF;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        button:hover,
+        button:active {
+            background-color: initial;
+            color: #FFFFFF;
+        }
+
+        pre {
+            background-color: #444444;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            overflow: auto;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ENDS Configuration Validator</h1>
+        <form action="/endsvalidator" method="post" enctype="multipart/form-data">
+            <label for="file">Select JSON File:</label>
+            <input type="file" name="file" accept=".json" required>
+            <button type="submit">Upload and Validate</button>
+        </form>
+
+        {% if status %}
+            <h2>
+                Validation Status: 
+                <span class="status-text {{ status | lower }}">
+                    {{ status }}
+                </span>
+            </h2>
+            
+            <!-- Display Error Details -->
+            {% if status == "Error" %}
+                <h3>Error Details:</h3>
+                <pre>{{ result }}</pre>
+            {% endif %}
+            
+            <!-- Render Valid JSON -->
+            {% if status == "Valid" %}
+                <h3>Validated JSON:</h3>
+                <pre><code class="json">{{ result.data | tojson(indent=2) }}</code></pre>
+            {% endif %}
+            
+            <!-- Render Validation Errors -->
+            {% if status == "Invalid" %}
+                <h3>Validation Errors:</h3>
+                <pre><code class="json">{{ result.errors | tojson(indent=2) }}</code></pre>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        // Apply syntax highlighting for JSON
+        document.querySelectorAll('pre code').forEach((el) => {
+            hljs.highlightElement(el);
+        });
+    </script>
+</body>
+</html>
