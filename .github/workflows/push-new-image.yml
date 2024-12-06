@@ -4,8 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths-ignore:
-      - '.*/**'
       - 'README.md'
+      - 'docs/**'
+      - '.github/**'
 
 env:
   IMAGE_REPO: wesdobry 
@@ -13,9 +14,9 @@ env:
 
 jobs:
   Push-New-Image:
-    runs-on: 	ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up QEMU
@@ -24,21 +25,15 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Get environment variables
-        uses: FranzDiebold/github-env-vars-action@v2
-
-      - name: Set tag
+      - name: Set and Print Image Tag
         run: |
-          if [ "$CI_ACTION_REF_NAME_SLUG" == 'main' ]
+          if [ "${{ github.ref_name }}" == 'main' ]
           then
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV
           else
-            echo "IMAGE_TAG=$CI_ACTION_REF_NAME_SLUG" >> $GITHUB_ENV
+            echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
           fi
-
-      - name: Print image tag
-        run: |
-          echo "Branch: $CI_ACTION_REF_NAME"
+          echo "Branch: ${{ github.ref_name }}"
           echo "Image Tag: ${{ env.IMAGE_TAG }}"
 
       - name: Login to DockerHub
@@ -47,18 +42,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and Push Image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          cache-from: type=registry,ref=${{ env.IMAGE_REPO }}/${{ env.IMAGE_NAME }}:latest
+          cache-to: type=inline
           provenance: mode=max
           tags: ${{ env.IMAGE_REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-
-      - name: Docker Hub Description
+      - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
