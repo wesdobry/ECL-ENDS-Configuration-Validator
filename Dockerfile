@@ -17,7 +17,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Copy the requirements file and install dependencies into /app/deps
 COPY requirements.txt .
-RUN pip install --no-cache-dir --target=/app/deps -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Runtime stage
 FROM python:3.13-slim
@@ -29,7 +29,8 @@ WORKDIR /app
 COPY . /app
 
 # Copy the dependencies from the builder stage
-COPY --from=builder /app/deps /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+
 
 # Create the app user and set permissions
 RUN addgroup --system app && adduser --system --group app \
