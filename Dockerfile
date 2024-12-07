@@ -29,8 +29,7 @@ WORKDIR /app
 COPY . /app
 
 # Copy the dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
-
+COPY --from=builder /usr/local /usr/local
 
 # Create the app user and set permissions
 RUN addgroup --system app && adduser --system --group app \
