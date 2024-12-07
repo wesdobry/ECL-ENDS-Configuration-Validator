@@ -16,6 +16,11 @@ jobs:
   Push-New-Image:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          version: '20.10.23'
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
